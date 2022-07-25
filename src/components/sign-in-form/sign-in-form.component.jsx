@@ -1,15 +1,14 @@
+import './sign-in-form.styles.scss';
+
 import { useState } from 'react';
 
-import FormInput from '../form-input/form-input.component';
-import Button from '../button/button.component';
-
 import {
+  createUserDocumentFromAuth,
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
-  createUserDocumentFromAuth,
 } from '../../utils/firebase/firebase.utils';
-
-import './sign-in-form.styles.scss';
+import Button from '../button/button.component';
+import FormInput from '../form-input/form-input.component';
 
 const defaultFormFields = {
   email: '',
@@ -25,7 +24,8 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
+    const { user } = await signInWithGooglePopup();
+    await createUserDocumentFromAuth(user);
   };
 
   const handleSubmit = async (event) => {
@@ -35,7 +35,16 @@ const SignInForm = () => {
       await signInAuthUserWithEmailAndPassword(email, password);
       resetFormFields();
     } catch (error) {
-      console.log('user sign in failed', error);
+      switch (error.code) {
+        case 'auth/wrong-password':
+          alert('incorrect password for email');
+          break;
+        case 'auth/user-not-found':
+          alert('no user associated with this email');
+          break;
+        default:
+          console.log(error);
+      }
     }
   };
 
@@ -53,6 +62,7 @@ const SignInForm = () => {
         <FormInput
           label='Email'
           type='email'
+          autoComplete="username"
           required
           onChange={handleChange}
           name='email'
@@ -62,6 +72,7 @@ const SignInForm = () => {
         <FormInput
           label='Password'
           type='password'
+          autoComplete="current-password"
           required
           onChange={handleChange}
           name='password'

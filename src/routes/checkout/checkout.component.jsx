@@ -1,9 +1,15 @@
-import { useContext } from 'react';
+import { useContext } from "react";
 
-import { CartContext } from '../../contexts/cart.context';
+import { CartContext } from "../../contexts/cart.context";
 
-import CheckoutItem from '../../components/checkout-item/checkout-item.component';
-import { CheckoutContainer, CheckoutHeader, HeaderBlock, Total } from './checkout.styles';
+import CheckoutItem from "../../components/checkout-item/checkout-item.component";
+import {
+  CheckoutContainer,
+  CheckoutHeader,
+  HeaderBlock,
+  Total
+} from "./checkout.styles";
+import PaymentForm from "../../components/payment-form/payment-form.component";
 
 const Checkout = () => {
   const { cartItems, cartTotal } = useContext(CartContext);
@@ -31,6 +37,7 @@ const Checkout = () => {
         <CheckoutItem key={cartItem.id} cartItem={cartItem} />
       ))}
       <Total>TOTAL: ${cartTotal}</Total>
+      <PaymentForm />
     </CheckoutContainer>
   );
 };

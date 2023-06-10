@@ -18,11 +18,11 @@ render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <CartProvider>
-          <Elements stripe={stripePromise}>
+        <Elements stripe={stripePromise}>
+          <CartProvider>
             <App />
-          </Elements>
-        </CartProvider>
+          </CartProvider>
+        </Elements>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

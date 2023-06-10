@@ -25,6 +25,7 @@ const PaymentForm = () => {
   return (
     <PaymentFormContainer>
       <FormContainer onSubmit={paymentHandler}>
+        <h2>Credit Card Payment</h2>
         <CardElement />
         <Button buttonType={BUTTON_TYPE_CLASSES.inverted}>Pay Now</Button>
       </FormContainer>
